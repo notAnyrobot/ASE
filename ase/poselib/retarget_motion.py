@@ -35,6 +35,9 @@ from poselib.core.rotation3d import *
 from poselib.skeleton.skeleton3d import SkeletonTree, SkeletonState, SkeletonMotion
 from poselib.visualization.common import plot_skeleton_state, plot_skeleton_motion_interactive
 
+import os 
+from ase import ASE_ROOT_DIR, POSELIB_DIR
+
 """
 This scripts shows how to retarget a motion clip from the source skeleton to a target skeleton.
 Data required for retargeting are stored in a retarget config dictionary as a json file. This file contains:
@@ -206,20 +209,27 @@ def project_joints(motion):
 def main():
     # load retarget config
     retarget_data_path = "data/configs/retarget_cmu_to_amp.json"
+    retarget_data_path = os.path.join(POSELIB_DIR, retarget_data_path)
     with open(retarget_data_path) as f:
         retarget_data = json.load(f)
 
     # load and visualize t-pose files
-    source_tpose = SkeletonState.from_file(retarget_data["source_tpose"])
+    source_tpose_file = retarget_data["source_tpose"]
+    source_tpose_file = os.path.join(POSELIB_DIR, source_tpose_file)
+    source_tpose = SkeletonState.from_file(source_tpose_file)
     if VISUALIZE:
         plot_skeleton_state(source_tpose)
 
-    target_tpose = SkeletonState.from_file(retarget_data["target_tpose"])
+    target_tpose_file = retarget_data["target_tpose"]
+    target_tpose_file = os.path.join(POSELIB_DIR, target_tpose_file)
+    target_tpose = SkeletonState.from_file(target_tpose_file)
     if VISUALIZE:
         plot_skeleton_state(target_tpose)
 
     # load and visualize source motion sequence
-    source_motion = SkeletonMotion.from_file(retarget_data["source_motion"])
+    source_motion_file = retarget_data["source_motion"]
+    source_motion_file = os.path.join(POSELIB_DIR, source_motion_file)
+    source_motion = SkeletonMotion.from_file(source_motion_file)
     if VISUALIZE:
         plot_skeleton_motion_interactive(source_motion)
 

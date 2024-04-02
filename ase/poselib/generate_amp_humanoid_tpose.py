@@ -27,7 +27,10 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
+import os
 import torch
+
+from ase import ASE_ROOT_DIR, POSELIB_DIR
 
 from poselib.core.rotation3d import *
 from poselib.skeleton.skeleton3d import SkeletonTree, SkeletonState
@@ -39,7 +42,8 @@ It then generates a zero rotation pose, and adjusts the pose into a T-Pose.
 """
 
 # import MJCF file
-xml_path = "../../../../assets/mjcf/amp_humanoid.xml"
+# xml_path = "../../../../assets/mjcf/amp_humanoid.xml"
+xml_path = os.path.join(ASE_ROOT_DIR, 'ase/data/assets/mjcf/amp_humanoid_sword_shield.xml')
 skeleton = SkeletonTree.from_mjcf(xml_path)
 
 # generate zero rotation pose
@@ -59,5 +63,6 @@ translation = zero_pose.root_translation
 translation += torch.tensor([0, 0, 0.9])
 
 # save and visualize T-pose
-zero_pose.to_file("data/amp_humanoid_tpose.npy")
+# zero_pose.to_file("data/amp_humanoid_tpose.npy")
+zero_pose.to_file(os.path.join(POSELIB_DIR, 'data/amp_humanoid_sword_shield_tpose.npy'))
 plot_skeleton_state(zero_pose)

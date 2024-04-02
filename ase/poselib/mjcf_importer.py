@@ -27,14 +27,19 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
+import os
+from ase import ASE_ROOT_DIR, POSELIB_DIR
+
 from poselib.skeleton.skeleton3d import SkeletonTree, SkeletonState
 from poselib.visualization.common import plot_skeleton_state
 
 # load in XML mjcf file and save zero rotation pose in npy format
-xml_path = "../../../../assets/mjcf/nv_humanoid.xml"
+# xml_path = "../../../../assets/mjcf/nv_humanoid.xml"
+xml_path = os.path.join(ASE_ROOT_DIR, 'ase/data/assets/mjcf/amp_humanoid_sword_shield.xml')
 skeleton = SkeletonTree.from_mjcf(xml_path)
 zero_pose = SkeletonState.zero_pose(skeleton)
-zero_pose.to_file("data/nv_humanoid.npy")
+# zero_pose.to_file("data/nv_humanoid.npy")
+zero_pose.to_file(os.path.join(POSELIB_DIR, 'data/nv_humanoid.npy'))
 
 # visualize zero rotation pose
 plot_skeleton_state(zero_pose)

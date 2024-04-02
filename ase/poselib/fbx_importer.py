@@ -30,11 +30,14 @@
 import os
 import json
 
+from ase import ASE_ROOT_DIR, POSELIB_DIR
+
 from poselib.skeleton.skeleton3d import SkeletonTree, SkeletonState, SkeletonMotion
 from poselib.visualization.common import plot_skeleton_state, plot_skeleton_motion_interactive
 
 # source fbx file path
 fbx_file = "data/01_01_cmu.fbx"
+fbx_file = os.path.join(POSELIB_DIR, fbx_file)
 
 # import fbx file - make sure to provide a valid joint name for root_joint
 motion = SkeletonMotion.from_fbx(
@@ -44,7 +47,9 @@ motion = SkeletonMotion.from_fbx(
 )
 
 # save motion in npy format
-motion.to_file("data/01_01_cmu.npy")
+npy_file = "data/01_01_cmu.npy"
+npy_file = os.path.join(POSELIB_DIR, npy_file)
+motion.to_file(npy_file)
 
 # visualize motion
 plot_skeleton_motion_interactive(motion)
